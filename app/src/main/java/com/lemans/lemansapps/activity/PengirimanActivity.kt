@@ -11,11 +11,14 @@ import kotlinx.android.synthetic.main.activity_pengiriman.*
 import kotlinx.android.synthetic.main.toolbar_custom.*
 
 class PengirimanActivity : AppCompatActivity() {
+
+    lateinit var myDb: MyDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pengiriman)
         Helper().setToolbar(this, toolbar, "Pengiriman")
 
+        myDb = MyDatabase.getInstance(this)!!
         mainButton()
     }
 

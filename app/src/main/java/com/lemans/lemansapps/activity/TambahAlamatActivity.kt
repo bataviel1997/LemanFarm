@@ -15,8 +15,8 @@ import com.lemans.lemansapps.model.Alamat
 import com.lemans.lemansapps.model.ModelAlamat
 import com.lemans.lemansapps.model.ResponModel
 import com.lemans.lemansapps.room.MyDatabase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tambah_alamat.*
@@ -27,10 +27,9 @@ import retrofit2.Response
 
 class TambahAlamatActivity : AppCompatActivity() {
 
-    var provinsi = ModelAlamat()
-    var kota = ModelAlamat()
+    var provinsi = ModelAlamat.Provinsi()
+    var kota = ModelAlamat.Provinsi()
     var kecamatan = ModelAlamat()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tambah_alamat)
@@ -70,18 +69,18 @@ class TambahAlamatActivity : AppCompatActivity() {
             }
         }
 
-        if (provinsi.id == 0){
+        if (provinsi.province_id == "0"){
             toast("Silahkan Pilih Provinsi")
             return
         }
-        if (kota.id == 0){
+        if (kota.city_id == "0"){
             toast("Silahkan Pilih Kota")
             return
         }
-        if (kecamatan.id == 0){
+        /*if(kecamatan.id == 0){
             toast("Silahkan Pilih Kecamatan")
             return
-        }
+        }*/
 
         val alamat = Alamat()
         alamat.name = edt_nama.text.toString()
@@ -90,12 +89,12 @@ class TambahAlamatActivity : AppCompatActivity() {
         alamat.alamat = edt_alamat.text.toString()
         alamat.kodepos = edt_kodePos.text.toString()
 
-        alamat.id_provinsi = provinsi.id
-        alamat.provinsi = provinsi.nama
-        alamat.id_kota = kota.id
-        alamat.kota = kota.nama
-        alamat.id_kecamatan = kecamatan.id
-        alamat.kecamatan = kecamatan.nama
+        alamat.id_provinsi = Integer.valueOf(provinsi.province_id)
+        alamat.provinsi = provinsi.province
+        alamat.id_kota = Integer.valueOf(kota.city_id)
+        alamat.kota = kota.city_name
+//        alamat.id_kecamatan = kecamatan.id
+//        alamat.kecamatan = kecamatan.nama
 
         insert(alamat)
     }
@@ -105,7 +104,7 @@ class TambahAlamatActivity : AppCompatActivity() {
     }
 
     private fun error(editText: EditText){
-        editText.error = " Kolom Kode Pos Tidak Boleh Kosong"
+        editText.error = " Kolom Tidak Boleh Kosong"
         editText.requestFocus()
     }
 
@@ -126,9 +125,9 @@ class TambahAlamatActivity : AppCompatActivity() {
                     val arryString = ArrayList<String>()
                     arryString.add("Pilih Provinsi")
 
-                    val listProvinsi = res.rajaongkir.results
+                    val listProvinsi = res.provinsi
                     for (prov in listProvinsi) {
-                        arryString.add(prov.province)
+                        arryString.add(prov.nama)
                     }
 
                     val adapter = ArrayAdapter<Any>(this@TambahAlamatActivity, R.layout.item_spinner, arryString.toTypedArray())
@@ -141,7 +140,7 @@ class TambahAlamatActivity : AppCompatActivity() {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             if (position != 0) {
                                 provinsi = listProvinsi[position - 1]
-                                val idProv = provinsi.province_id
+                                val idProv = listProvinsi[position - 1].id
                                 getKota(idProv)
                             }
                         }
@@ -154,9 +153,9 @@ class TambahAlamatActivity : AppCompatActivity() {
         })
     }
 
-    private fun getKota(id: String) {
+    private fun getKota(id: Int) {
         pb.visibility = View.VISIBLE
-        ApiConfigAlamat.instanceRetrofit.getKota(ApiKey.key, id).enqueue(object : Callback<ResponModel> {
+        ApiConfigAlamat.instanceRetrofit.getKota(id).enqueue(object : Callback<ResponModel> {
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
 
             }
@@ -169,12 +168,12 @@ class TambahAlamatActivity : AppCompatActivity() {
                     div_kota.visibility = View.VISIBLE
 
                     val res = response.body()!!
-                    val listArray = res.rajaongkir.results
+                    val listArray = res.kota_kabupaten
 
                     val arryString = ArrayList<String>()
                     arryString.add("Pilih Kota")
-                    for (kota in listArray) {
-                        arryString.add(kota.type + " " + kota.city_name)
+                    for (prov in listArray) {
+                        arryString.add(prov.nama)
                     }
 
                     val adapter = ArrayAdapter<Any>(this@TambahAlamatActivity, R.layout.item_spinner, arryString.toTypedArray())
@@ -188,9 +187,9 @@ class TambahAlamatActivity : AppCompatActivity() {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             if (position != 0) {
                                 kota = listArray[position - 1]
-                                val kodePos = kota.postal_code
-                                edt_kodePos.setText(kodePos)
-//                                getKecamatan(idKota)
+                                val idKota  = listArray[position - 1].id
+                                Log.d("respon", "Provinsi id:" + idKota + " - " + " name:" + listArray[position - 1].nama)
+                                getKecamatan(idKota)
                             }
                         }
                     }
@@ -229,6 +228,7 @@ class TambahAlamatActivity : AppCompatActivity() {
                         override fun onNothingSelected(parent: AdapterView<*>?) {
 
                         }
+
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             if (position != 0) {
                                 kecamatan = listArray[position - 1]
@@ -244,13 +244,14 @@ class TambahAlamatActivity : AppCompatActivity() {
 
     private fun insert(data: Alamat) {
         val myDb = MyDatabase.getInstance(this)!!
-
-        CompositeDisposable().add(io.reactivex.Observable.fromCallable { myDb.daoAlamat().insert(data) }
+        CompositeDisposable().add(Observable.fromCallable { myDb.daoAlamat().insert(data) }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                toast("insert data success")
-                onBackPressed()
+                toast("Insert data success")
+                for (alamat in myDb.daoAlamat().getAll()) {
+                    Log.d("Alamat", "nama:" + alamat.name + " - " + alamat.alamat + " - " + alamat.kota)
+                }
             })
     }
 
