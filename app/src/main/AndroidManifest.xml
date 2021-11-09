@@ -38,6 +38,9 @@
             android:exported="true"/>
         <activity android:name=".activity.DetailProdukActivity"
             android:exported="true"/>
+        <activity android:name=".activity.PengirimanActivity" />
+        <activity android:name=".activity.ListAlamatActivity" />
+        <activity android:name=".activity.TambahAlamatActivity" />
     </application>
 
 </manifest>

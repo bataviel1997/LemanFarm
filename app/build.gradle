@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.databinding:baseLibrary:3.2.0-alpha11'
     apply plugin : "kotlin-android"
     apply plugin: 'kotlin-android-extensions'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

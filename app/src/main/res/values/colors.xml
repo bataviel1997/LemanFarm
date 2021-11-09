@@ -15,5 +15,6 @@
     <color name="colorPrimaryDark">#067FDF</color>
     <color name="orangeaja">#FFA618</color>
     <color name="colorAccent">#FFA618</color>
+    <color name="dark">#121931</color>
 
 </resources>
