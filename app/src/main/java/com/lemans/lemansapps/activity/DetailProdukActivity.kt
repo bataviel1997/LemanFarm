@@ -12,7 +12,6 @@ import com.lemans.lemansapps.R
 import com.lemans.lemansapps.helper.Helper
 import com.lemans.lemansapps.model.Produk
 import com.lemans.lemansapps.room.MyDatabase
-import com.lemans.lemansapps.util.Config
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -109,7 +108,7 @@ class DetailProdukActivity : AppCompatActivity() {
         tv_harga.text = Helper().gantiRupiah(produk.harga)
         tv_deskripsi.text = produk.deskripsi
 
-        val img =  Config.productUrl + produk.image
+        val img = produk.image
         Picasso.get()
                 .load(img)
                 .placeholder(R.drawable.product)

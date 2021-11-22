@@ -13,7 +13,6 @@ import com.lemans.lemansapps.R
 import com.lemans.lemansapps.helper.Helper
 import com.lemans.lemansapps.model.Produk
 import com.lemans.lemansapps.room.MyDatabase
-import com.lemans.lemansapps.util.Config
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -66,7 +65,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
             update(produk)
         }
 
-     val image =  Config.productUrl + data[position].image
+     val image = data[position].image
     Picasso.get()
             .load(image)
             .placeholder(R.drawable.product)
@@ -94,8 +93,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
         }
 
         holder.btnDelete.setOnClickListener {
-            delete(produk)
-            listener.onDelete(position)
+            delete(produk, position)
         }
     }
 
@@ -104,7 +102,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
         fun onDelete(position: Int)
     }
 
-    private fun update(data : Produk ) {
+    private fun update(data: Produk ) {
         val myDb = MyDatabase.getInstance(activity)
         CompositeDisposable().add(Observable.fromCallable { myDb!!.daoKeranjang().update(data) }
                 .subscribeOn(Schedulers.computation())
@@ -114,12 +112,13 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
                 })
     }
 
-    private fun delete(data : Produk ) {
+    private fun delete(data : Produk, position: Int ) {
         val myDb = MyDatabase.getInstance(activity)
         CompositeDisposable().add(Observable.fromCallable { myDb!!.daoKeranjang().delete(data) }
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    listener.onDelete(position)
                 })
     }
 

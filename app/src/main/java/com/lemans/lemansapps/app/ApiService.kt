@@ -2,6 +2,7 @@ package com.lemans.lemansapps.app
 
 
 import com.lemans.lemansapps.model.ResponModel
+import com.lemans.lemansapps.model.rajaongkir.ResponOngkir
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -28,12 +29,15 @@ interface ApiService {
     @GET("produk")
     fun getProduk():Call<ResponModel>
 
-    @GET("provinsi")
-    fun getProvinsi():Call<ResponModel>
+    @GET("province")
+    fun getProvinsi(
+        @Header("key") key: String,
+    ):Call<ResponModel>
 
-    @GET("kota")
+    @GET("city")
     fun getKota(
-            @Query("id_provinsi") id: Int
+            @Header("key") key: String,
+            @Query("province") id: String
     ):Call<ResponModel>
 
     @GET("kecamatan")
@@ -41,6 +45,15 @@ interface ApiService {
         @Query("id_kota") id: Int
     ):Call<ResponModel>
 
+    @FormUrlEncoded
+    @POST("cost")
+    fun ongkir(
+        @Header("key") key: String,
+        @Field("origin") origin: String,
+        @Field("destination") destination: String,
+        @Field("weight") weight: Int,
+        @Field("destination") courier: String
+    ): Call<ResponOngkir>
 
 }
 

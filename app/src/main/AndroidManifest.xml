@@ -28,6 +28,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity android:name=".activity.LoginActivity"
@@ -38,9 +39,12 @@
             android:exported="true"/>
         <activity android:name=".activity.DetailProdukActivity"
             android:exported="true"/>
-        <activity android:name=".activity.PengirimanActivity" />
-        <activity android:name=".activity.ListAlamatActivity" />
-        <activity android:name=".activity.TambahAlamatActivity" />
+        <activity android:name=".activity.PengirimanActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.ListAlamatActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.TambahAlamatActivity"/>
+
     </application>
 
 </manifest>

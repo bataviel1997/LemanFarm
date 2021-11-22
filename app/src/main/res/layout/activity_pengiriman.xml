@@ -191,6 +191,16 @@
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/tv_kosong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="* Pilih Alamat pengiriman\nTerlebih dahulu"
+                    android:visibility="visible" />
+
                 <Spinner
                     android:id="@+id/spn_kurir"
                     android:layout_width="match_parent"
@@ -206,16 +216,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="14dp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_kosong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="* Pilih metode pengiriman"
-                    android:visibility="gone" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/div_pengiriman"

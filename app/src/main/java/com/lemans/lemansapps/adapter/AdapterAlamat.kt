@@ -55,5 +55,4 @@ class AdapterAlamat(var data: ArrayList<Alamat>, var listener: Listeners) : Recy
     interface Listeners {
         fun onClicked(data: Alamat)
     }
-
 }

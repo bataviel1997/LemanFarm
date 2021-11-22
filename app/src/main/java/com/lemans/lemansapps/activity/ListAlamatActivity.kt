@@ -39,8 +39,9 @@ class ListAlamatActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_alamat.adapter = AdapterAlamat(arrayList, object : AdapterAlamat.Listeners {
+
             override fun onClicked(data: Alamat) {
-                if (myDb.daoAlamat().getByStatus(true) != null){
+                if (myDb.daoAlamat().getByStatus(true) != null) {
                     val alamatActive = myDb.daoAlamat().getByStatus(true)!!
                     alamatActive.isSelected = false
                     updateActive(alamatActive, data)

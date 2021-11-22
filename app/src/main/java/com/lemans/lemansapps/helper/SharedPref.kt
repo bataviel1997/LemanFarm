@@ -48,6 +48,8 @@ class SharedPref(activity: Activity) {
     fun getString(key: String) : String {
         return sp.getString(key, "")!!
     }
-
+    fun clear(){
+        sp.edit().clear().apply()
+    }
 
 }

@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.lemans.lemansapps.activity.MasukActivity
-import com.lemans.lemansapps.fargment.AkunFragment
-import com.lemans.lemansapps.fargment.HomeFragment
-import com.lemans.lemansapps.fargment.KeranjangFragment
+import com.lemans.lemansapps.fragment.AkunFragment
+import com.lemans.lemansapps.fragment.HomeFragment
+import com.lemans.lemansapps.fragment.KeranjangFragment
 import com.lemans.lemansapps.helper.SharedPref
 
 class MainActivity : AppCompatActivity() {
